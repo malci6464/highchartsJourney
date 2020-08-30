@@ -1,7 +1,165 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
-</html>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+
+<div id="container"></div>
+
+<style>
+
+#container {
+  max-width: 700px;
+  max-height: 900px;
+}
+table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;  
+}
+</style>
+
+<script>
+
+
+let Devgroup = [
+  "juniors",
+  "intermediates",
+  "seniors",
+  "others",
+  
+];
+
+    
+    let dataArray = [
+  [2,3,2,4,5,3,5,4,3,2,2,1,3.1,4,2.1,3.1],
+[2,5,5,5,3,2,4,5,4.4,5.4,6],
+ [6,5,4,6,7,6,5,6,7,8,7,6,5,4,5,6,7.6,7.6],
+[2,3,2,4,5,3,5,4,3,6,4,3,2,2,2,8,5,2,1,5,7,7,5,3,3,2,2,4,6,7,7,8]
+]
+
+redrawing = false;
+
+    //Process density data
+    let step = 1,
+      precision = 0.00001,
+      width = 7;
+
+    let data = processDensity(
+      step,
+      precision,
+      width,
+      dataArray[0], //triathlon,
+      dataArray[1], //badminton,
+      dataArray[2], //fencing,
+      dataArray[3], //rowing,
+     
+    );
+
+    //Structure the data to create the chart
+    let chartsNbr = data.results.length;
+    let xi = data.xiData;
+    let stat = data.stat;
+
+    //Create the series
+    let dataSeries = [],
+      series = [];
+    data.results.forEach((e, i) => {
+      dataSeries.push([]);
+      dataSeries[i] = e;
+      series.push({
+        data: dataSeries[i],
+        name: Devgroup[i],
+        zIndex: chartsNbr - i
+      });
+    });
+
+    Highcharts.chart("container", {
+      chart: {
+        type: "areasplinerange",
+        animation: true,
+        events: {
+          render() {
+            if (!redrawing) {
+              redrawing = true;
+
+              this.series.forEach((s) => {
+                s.update({
+                  fillColor: {
+                    linearGradient: [0, 0, this.plotWidth, 0],
+                    stops: [
+                      [0, Highcharts.color("yellow").setOpacity(0).get("rgba")],
+                      [0.25, "#FFA500"], //orange
+                      [0.5, "#FF0033"], //red
+                      [0.75, "#7A378B"] //purple
+                    ]
+                  }
+                });
+              });
+              redrawing = false;
+            }
+          }
+        }
+      },
+      title: {
+        text: "Distribution of skill results"
+      },
+      xAxis: {
+        labels: { format: "{value} points" }
+      },
+
+      yAxis: {
+        title: { text: null },
+        categories: Devgroup,
+        max: data.results.length,
+        labels: {
+          formatter: function () {
+            if (this.pos < chartsNbr) return this.value;
+          },
+          style: {
+            textTransform: "capitalize",
+            fontSize: "9px"
+          }
+        },
+        startOnTick: true,
+        gridLineWidth: 1,
+        tickmarkPlacement: "on"
+      },
+      tooltip: {
+        useHTML: true,
+        shared: true,
+        crosshairs: true,
+        valueDecimals: 3,
+        headerFormat: null,
+        pointFormat: "<b>{series.name}</b>: {point.x} points <br/>",
+        footerFormat: null
+      },
+      plotOptions: {
+        areasplinerange: {
+          marker: {
+            enabled: false
+          },
+          states: {
+            hover: {
+              enabled: false
+            }
+          },
+          pointStart: xi[0],
+          animation: {
+            duration: 0
+          },
+          fillColor: "",
+          lineWidth: 1,
+          color: "black"
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      series: series
+   //});
+  }
+);
+
+</script>

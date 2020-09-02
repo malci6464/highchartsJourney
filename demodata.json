@@ -6,7 +6,7 @@
             "test_name": "regression check",
             "description": "An overall module check for compliance on all existing and new functions",
             "status": "&#9989- passed",
-            "historical_pass": "86",
+            "historical_pass": "66",
             "difficulty": "Medium"
         },
         {
@@ -15,7 +15,7 @@
             "test_name": "class check",
             "description": "OOP unit test designed to see if you have a minumum of 4 classes",
             "status": "&#10060 - failed",
-            "historical_pass": "61%",
+            "historical_pass": "61",
             "difficulty": "Medium"
         }, {
             "id": "3",
@@ -23,7 +23,7 @@
             "test_name": "check_squares",
             "description": "A detailed unit test on checking for population of n squares",
             "status": "&#9989 - passed",
-            "historical_pass": "86%",
+            "historical_pass": "86",
             "difficulty": "Easy"
         }, {
             "id": "4",
@@ -31,7 +31,7 @@
             "test_name": "generate_squares",
             "description": "A detailed unit test on your build function - 3 edge cases tested for different sized boards",
             "status": "&#10060 - failed",
-            "historical_pass": "22%",
+            "historical_pass": "22",
             "difficulty": "Difficult"
         }
     ]

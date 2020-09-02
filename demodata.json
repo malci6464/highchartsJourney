@@ -7,7 +7,7 @@
             "description": "An overall module check for compliance on all existing and new functions",
             "status": "&#9989- passed",
             "historical_pass": "71%",
-            "difficulty": "<span class="label label-danger">Difficult</span>"
+            "difficulty": " class="label label-danger" Difficult"
         },
         {
             "id": "2",

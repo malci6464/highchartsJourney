@@ -2,37 +2,37 @@
     "data": [
         {
             "id": "1",
-            "time_stamp": "1599034381",
-            "test_name": "check_squares",
-            "description": "A detailed unit test on checking for population of n squares",
-            "status": "&#10060 - failed",
-            "historical_pass": "66%",
+            "time_stamp": "1599034379",
+            "test_name": "regression check",
+            "description": "An overall module check for compliance on all existing and new functions",
+            "status": "&#9989- passed",
+            "historical_pass": "71%",
             "difficulty": "Medium"
         },
         {
-            "id": "1",
+            "id": "2",
             "time_stamp": "1599034381",
-            "test_name": "check_squares",
-            "description": "A detailed unit test on checking for population of n squares",
+            "test_name": "class check",
+            "description": "OOP unit test designed to see if you have a minumum of 4 classes",
             "status": "&#10060 - failed",
-            "historical_pass": "66%",
+            "historical_pass": "61%",
             "difficulty": "Medium"
         }, {
-            "id": "1",
-            "time_stamp": "1599034381",
+            "id": "3",
+            "time_stamp": "1599034383",
             "test_name": "check_squares",
             "description": "A detailed unit test on checking for population of n squares",
-            "status": "&#10060 - failed",
-            "historical_pass": "66%",
-            "difficulty": "Medium"
+            "status": "&#9989 - passed",
+            "historical_pass": "86%",
+            "difficulty": "Easy"
         }, {
-            "id": "1",
-            "time_stamp": "1599034381",
-            "test_name": "check_squares",
-            "description": "A detailed unit test on checking for population of n squares",
+            "id": "4",
+            "time_stamp": "1599034386",
+            "test_name": "generate_squares",
+            "description": "A detailed unit test on your build function - 3 edge cases tested for different sized boards",
             "status": "&#10060 - failed",
-            "historical_pass": "66%",
-            "difficulty": "Medium"
+            "historical_pass": "22%",
+            "difficulty": "Difficult"
         }
     ]
 }

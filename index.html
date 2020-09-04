@@ -3,14 +3,24 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
+
+<!--external modules required by density -->
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 <script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
 
+<!--density graph -->
 <div id="container"></div>
+
+<!--time v skill graph -->
+<div id="container2"></div>
+
+
+
+
 
 <style>
 
-#container {
+#container, #container2 {
   max-width: 700px;
   max-height: 900px;
 }
@@ -20,9 +30,11 @@ table, th, td {
 }
 </style>
 
+
+
+
 <script>
-
-
+//item 0 displays lowest in a vertical sense
 let Devgroup = [
   "juniors",
   "intermediates",
@@ -30,18 +42,21 @@ let Devgroup = [
   "others",
   
 ];
+//individual result score - shown in plotline / vert line
+let dev1 = 5.5
 
-    
-    let dataArray = [
-  [2,3,2,4,5,3,5,4,3,2,2,1,3.1,4,2.1,3.1],
+// each line of 2d array maps to groups in Devgroup
+let dataArray = [  
+[2,3,2,4,5,3,5,4,3,2,2,1,3.1,4,2.1,3.1],
 [2,5,5,5,3,2,4,5,4.4,5.4,6],
- [6,5,4,6,7,6,5,6,7,8,7,6,5,4,5,6,7.6,7.6],
+[6,5,4,6,7,6,5,6,7,8,7,6,5,4,5,6,7.6,7.6],
 [2,3,2,4,5,3,5,4,3,6,4,3,2,2,2,8,5,2,1,5,7,7,5,3,3,2,2,4,6,7,7,8]
 ]
 
+//global bool to intiate draw to canvas
 redrawing = false;
 
-    //Process density data
+    //Process density data - kernal can be tweaked here - ive minimized width from default
     let step = 1,
       precision = 0.00001,
       width = 7;
@@ -50,17 +65,16 @@ redrawing = false;
       step,
       precision,
       width,
-      dataArray[0], //triathlon,
-      dataArray[1], //badminton,
-      dataArray[2], //fencing,
-      dataArray[3], //rowing,
+      dataArray[0], 
+      dataArray[1], 
+      dataArray[2], 
+      dataArray[3], 
      
     );
 
     //Structure the data to create the chart
     let chartsNbr = data.results.length;
-    let xi = data.xiData;
-    let stat = data.stat;
+    let xi = data.xiData; //uses extrnal module
 
     //Create the series
     let dataSeries = [],
@@ -74,6 +88,9 @@ redrawing = false;
         zIndex: chartsNbr - i
       });
     });
+
+
+
 
     Highcharts.chart("container", {
       chart: {
@@ -90,9 +107,17 @@ redrawing = false;
                     linearGradient: [0, 0, this.plotWidth, 0],
                     stops: [
                       [0, Highcharts.color("yellow").setOpacity(0).get("rgba")],
+                      [0.25, 'rgb(211,211,211)'], //grey shade 1
+                      [0.5, 'rgb(190,190,190)'], //grey shade 2
+                      [0.75, 'rgb(104,104,104)'] //grey shade 3
+
+                
+                      /* 
+                      Alternate colour style
                       [0.25, "#FFA500"], //orange
                       [0.5, "#FF0033"], //red
                       [0.75, "#7A378B"] //purple
+                      */
                     ]
                   }
                 });
@@ -106,8 +131,23 @@ redrawing = false;
         text: "Distribution of skill results"
       },
       xAxis: {
-        labels: { format: "{value} points" }
+        labels: { format: "{value} points" },
+
+        //plotline to signify individual user result
+        plotLines: [{
+          color: 'black',
+          width: 2,
+          value: dev1, //single dev score
+          zIndex: 555, //bring to front
+          label: {
+            rotation: 0,
+            text: "your score"
+          },
+    }]
       },
+      credits:{
+    enabled: false
+    },
 
       yAxis: {
         title: { text: null },
@@ -132,6 +172,9 @@ redrawing = false;
         crosshairs: true,
         valueDecimals: 3,
         headerFormat: null,
+
+        //need to solve for showing density value , not skill score
+        //point.y simply displays axis choice of 0,1,2,3
         pointFormat: "<b>{series.name}</b>: {point.x} points <br/>",
         footerFormat: null
       },
@@ -142,7 +185,7 @@ redrawing = false;
           },
           states: {
             hover: {
-              enabled: false
+              enabled: false,
             }
           },
           pointStart: xi[0],
@@ -158,8 +201,205 @@ redrawing = false;
         enabled: false
       },
       series: series
-   //});
   }
 );
+
+
+
+// tvs - time versus score
+// col[0] = time - func Utime(i) is applied to this column
+// this is not quite correct as there is no base reference to start time for the task
+// col[1] = skill score
+const tvs = [				
+[	15446	,	4.998402	],
+[	15474.54	,	5.033268	],
+[	15503.09	,	5.059519	],
+[	15531.63	,	5.076071	],
+[	15560.18	,	5.083531	],
+[	15588.72	,	5.082544	],
+[	15617.27	,	5.073749	],
+[	15645.81	,	5.057789	],
+[	15674.35	,	5.035305	],
+[	15702.9	,	5.006941	],
+[	15731.44	,	4.973337	],
+[	15759.99	,	4.935135	],
+[	15788.53	,	4.890238	],
+[	15817.08	,	4.833418	],
+[	15845.62	,	4.768026	],
+[	15874.16	,	4.697875	],
+[	15902.71	,	4.626773	],
+[	15931.25	,	4.558533	],
+[	15959.8	,	4.496964	],
+[	15988.34	,	4.445574	],
+[	16016.89	,	4.392398	],
+[	16045.43	,	4.334738	],
+[	16073.97	,	4.27973	],
+[	16102.52	,	4.233614	],
+[	16131.06	,	4.190182	],
+[	16159.61	,	4.147732	],
+[	16188.15	,	4.107731	],
+[	16216.7	,	4.071646	],
+[	16245.24	,	4.040944	],
+[	16273.78	,	4.016981	],
+[	16302.33	,	3.998663	],
+[	16330.87	,	3.984964	],
+[	16359.42	,	3.975473	],
+[	16387.96	,	3.96978	],
+[	16416.51	,	3.967472	],
+[	16445.05	,	3.968139	],
+[	16473.59	,	3.971369	],
+[	16502.14	,	3.97675	],
+[	16530.68	,	3.983872	],
+[	16559.23	,	3.992323	],
+[	16587.77	,	4.001692	],
+[	16616.32	,	4.011568	],
+[	16644.86	,	4.021539	],
+[	16673.41	,	4.031194	],
+[	16701.95	,	4.040121	],
+[	16730.49	,	4.04791	],
+[	16759.04	,	4.054346	],
+[	16787.58	,	4.059615	],
+[	16816.13	,	4.06368	],
+[	16844.67	,	4.066497	],
+[	16873.22	,	4.068021	],
+[	16901.76	,	4.068207	],
+[	16930.3	,	4.067009	],
+[	16958.85	,	4.064384	],
+[	16987.39	,	4.060286	],
+[	17015.94	,	4.05467	],
+[	17044.48	,	4.047492	],
+[	17073.03	,	4.038705	],
+[	17101.57	,	4.028267	],
+[	17130.11	,	4.016131	],
+[	17158.66	,	4.002253	],
+[	17187.2	,	3.986587	],
+[	17215.75	,	3.969089	],
+[	17244.29	,	3.949715	],
+[	17272.84	,	3.928418	],
+[	17301.38	,	3.905154	],
+[	17329.92	,	3.879879	],
+[	17358.47	,	3.852547	],
+[	17387.01	,	3.823113	],
+[	17415.56	,	3.791533	],
+[	17444.1	,	3.757762	],
+[	17472.65	,	3.721754	],
+[	17501.19	,	3.683465	],
+[	17529.73	,	3.642849	],
+[	17558.28	,	3.599863	],
+[	17586.82	,	3.55446	],
+[	17615.37	,	3.506597	],
+[	17643.91	,	3.456228	],
+[	17672.46	,	3.403308	],
+[	17701	,	3.347793	],
+	]			
+  
+  //unix time converter
+  function Utime(t)
+{
+    var dt = new Date(t*1000);
+    var hr = dt.getHours();
+    var m = "0" + dt.getMinutes();
+    var s = "0" + dt.getSeconds();
+    return hr+ ':' + m.substr(-2) + ':' + s.substr(-2);  
+}
+
+//alter col[0] of time series
+function changer(data){
+	for (let i = 0; i< data.length; i++){
+      	let j = data[i][0]
+    	data[i][0] = Utime(j)
+    }
+  return data
+}	
+
+//return a copy of data set with time manipulated via function Utime
+const tvs2 = (changer(tvs))
+
+
+Highcharts.chart('container2', {
+    chart: {
+        type: 'line',
+        //zoomType: 'xy'
+    },
+    title: {
+        text: 'Skill versus time evaluation'
+    },
+  
+    xAxis: {
+      //type: "datetime",
+        title: {
+            enabled: true,
+            text: 'Time to complete (minutes)'
+        },
+        startOnTick: true,
+        endOnTick: true,
+        showLastLabel: true,
+        min: 0
+    },
+    yAxis: {
+        title: {
+            text: 'Skill score'
+        },
+        labels: {
+        enabled: true,
+        }
+    },
+    credits:{
+    enabled: false
+    },/*
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        verticalAlign: 'top',
+        x: 100,
+        y: 70,
+        floating: true,
+        backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+        borderWidth: 1
+    }, 
+    plotOptions: {
+        scatter: {
+            marker: {
+            symbol:'circle',
+                radius: 3,
+                states: {
+                    hover: {
+                        enabled: true,
+                        lineColor: 'rgb(100,100,100)'
+                    }
+                }
+            },
+            states: {
+                hover: {
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: 'Test id:{point.x}'
+            }
+        }
+    },*/
+    series: [{
+        name: 'skill versus time',
+        color: 'orange',
+        marker: {enabled: false},
+        data: tvs2,
+
+    },{
+        name: 'dev2',
+        type: 'scatter',
+        color: 'grey',
+        marker: {enabled: true,
+                  radius: 14,
+                  symbol: 'circle'},
+
+        data: [	Utime(18444.1)	,	3.757762],
+
+    }]
+});
+
 
 </script>

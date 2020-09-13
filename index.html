@@ -39,7 +39,7 @@ let Devgroup = [
   "juniors",
   "intermediates",
   "seniors",
-  "others",
+  "internal",
   
 ];
 //individual result score - shown in plotline / vert line
@@ -47,10 +47,10 @@ let dev1 = 5.5
 
 // each line of 2d array maps to groups in Devgroup
 let dataArray = [  
-[2,3,2,4,5,3,5,4,3,2,2,1,3.1,4,2.1,3.1],
-[2,5,5,5,3,2,4,5,4.4,5.4,6],
-[6,5,4,6,7,6,5,6,7,8,7,6,5,4,5,6,7.6,7.6],
-[2,3,2,4,5,3,5,4,3,6,4,3,2,2,2,8,5,2,1,5,7,7,5,3,3,2,2,4,6,7,7,8]
+[2,3,2,4,5,3,5,4,3,2,2,2,3,3,3,3,3,3,3,3,4,3,2,3,4,1,3.1,4,2.1,3.1],
+[2,5,5,5,3,2,4,4,4,4,4,4,4,4,4,4,4,4,4,5,4.4,5.4,6],
+[6,5,4,6,7,4,5,6,7,6,6,5,5,6,5,6,5,6,5,6,5,6,5,6,7,8,7,6,5,4,5,6,7.6,7.6],
+[2,3,2,4,5,3,5,4,3,6,4,3,1,6,7,8,5,3,6,7,3,2]
 ]
 
 //global bool to intiate draw to canvas
@@ -58,8 +58,8 @@ redrawing = false;
 
     //Process density data - kernal can be tweaked here - ive minimized width from default
     let step = 1,
-      precision = 0.00001,
-      width = 7;
+      precision = 0.0001,
+      width = 6;
 
     let data = processDensity(
       step,
@@ -95,6 +95,7 @@ redrawing = false;
     Highcharts.chart("container", {
       chart: {
         type: "areasplinerange",
+        marginRight:40,
         animation: true,
         events: {
           render() {
@@ -106,7 +107,7 @@ redrawing = false;
                   fillColor: {
                     linearGradient: [0, 0, this.plotWidth, 0],
                     stops: [
-                      [0, Highcharts.color("yellow").setOpacity(0).get("rgba")],
+                      [0, 'rgb(211,211,211)'],
                       [0.25, 'rgb(211,211,211)'], //grey shade 1
                       [0.5, 'rgb(190,190,190)'], //grey shade 2
                       [0.75, 'rgb(104,104,104)'] //grey shade 3
@@ -131,11 +132,15 @@ redrawing = false;
         text: "Distribution of skill results"
       },
       xAxis: {
+        startOnTick: true,
+        endOnTick: true,
+          tickPositions: [0,1,2,3,4,5,6,7,8,9],
         labels: { format: "{value} points" },
 
         //plotline to signify individual user result
         plotLines: [{
           color: 'black',
+          
           width: 2,
           value: dev1, //single dev score
           zIndex: 555, //bring to front
@@ -292,6 +297,30 @@ const tvs = [
 [	17672.46	,	3.403308	],
 [	17701	,	3.347793	],
 	]			
+
+  var data1 = [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4,
+    4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2,
+    3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3,
+    3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3,
+    2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3,
+    2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3,
+    2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6,
+    3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2,
+    2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7,
+    3.2, 3.3, 3, 2.5, 3, 3.4, 3];
+
+    const dtemp = [
+    [	149	,	3.549715	],
+    [	163	,	3.949715	],
+[	182	,	3.928418	],
+[	204	,	3.905154	],
+[	231	,	3.879879	],
+[	263	,	3.852547	],
+[	298	,	3.823113	],
+[	299	,	3.791533	],
+[	345	,	3.757762	],
+[	395	,	3.721754	],
+    ]
   
   //unix time converter
   function Utime(t)
@@ -311,25 +340,41 @@ function changer(data){
     }
   return data
 }	
+/*
+function changer2(d2){
+	for (let i = 0; i< d2.length; i++){
+    	d2[i] = d
+      let tvs4 = tvs2
+      tvs4[i][1] = d
+    }
+    let d3  = tvs4.slice(0,30)
+  return  d3
+}	
 
+const tvs3 = changer2(data1) */
+
+const xy = Utime(17329.92)
 //return a copy of data set with time manipulated via function Utime
 const tvs2 = (changer(tvs))
 
 
 Highcharts.chart('container2', {
     chart: {
-        type: 'line',
-        //zoomType: 'xy'
+        type: 'spline',
     },
     title: {
         text: 'Skill versus time evaluation'
     },
+    subtitle: {
+        text: 'Trendlines indicate the best fit of some data using a single line or curve.'
+    },
   
+
     xAxis: {
       //type: "datetime",
         title: {
             enabled: true,
-            text: 'Time to complete (minutes)'
+            text: 'Time to complete task. 0 represents the fastest completion time. (seconds)'
         },
         startOnTick: true,
         endOnTick: true,
@@ -337,6 +382,7 @@ Highcharts.chart('container2', {
         min: 0
     },
     yAxis: {
+      tickPositions: [1,3,5,7,9],
         title: {
             text: 'Skill score'
         },
@@ -386,17 +432,17 @@ Highcharts.chart('container2', {
         name: 'skill versus time',
         color: 'orange',
         marker: {enabled: false},
-        data: tvs2,
+        data: dtemp,
 
     },{
         name: 'dev2',
         type: 'scatter',
-        color: 'grey',
+        color: 'red',
         marker: {enabled: true,
-                  radius: 14,
+                  radius: 4,
                   symbol: 'circle'},
 
-        data: [	Utime(18444.1)	,	3.757762],
+        data: [[236,3.928418]],
 
     }]
 });

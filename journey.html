@@ -6,3 +6,125 @@
 <figure class="highcharts-figure">
     <div id="container"></div>
 </figure>
+
+<style>
+
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 310px; 
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+#container {
+    min-height: 500px;
+}
+
+.highcharts-data-table table {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #EBEBEB;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+</style>
+
+
+<script>
+    Highcharts.chart('container', {
+    chart: {
+        type: 'bar'
+    },
+    credits: {
+    	enabled: false,
+    },
+    title: {
+        text: 'User Journey'
+    },
+    subtitle: {
+        text: 'Goal: complete 5 tasks <br> (white space = completed 5 tasks)'
+    },
+    xAxis: {
+    gridLineWidth: 0,
+   
+    
+        categories: ['user1','user2','user3','user4','user5','user6','user7','user8','user9','user10','user11','user12','user13','user14','user15','user16','user17','user18','user19','user20','user21','user22','user23','user24','user25','user26','user27','user28','user29','user30','user31','user32','user33','user34','user35','user36','user37','user38','user39','user40','user41','user42' ]
+    },
+    yAxis: {
+    gridLineWidth: 0,
+    tickPositions: [0,1,2,3,4,5,6,7],
+        min: 0,
+        title: {
+            text: 'Number of days from link received'
+        }
+    },
+    legend: {
+    	reversed: true
+    },
+     tooltip: {
+        formatter: function () {
+            return '<b>'+ this.x + '</b>' + ': Time taken to complete <b>' +  this.series.name + '</b> stage was <b>' + this.y + '</b> days.' ;
+        }
+    },
+
+    plotOptions: {
+        series: {
+        groupPadding: 0.02,
+            stacking: 'normal'
+        }
+    },
+    series: [{
+    		name: 'No activity',
+        data: [6.6,7,7,0,7,7,5,7,0,7,7,6,7,7,7,1,7,7,7,7,7,3,7,0,7,7,3,7,7,7,3,7,7,7,7,7,5,7,7,7,3],
+        color: '#d8d8d8',
+    },{
+        name: 'Task 5',
+        data: [0,0,0,1,0,0,0,0,0.6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        color: '#ff5232',
+    }, {
+        name: 'Task 4',
+        data: [0,0,0,0.3,0,0,0,0,0.3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+         color: '#2F4F4F',
+    },{
+        name: 'Task 3',
+        data: [0,0,0,0.3,0,0,0,0,0.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+         color: '#ff5232',
+    }, {
+        name: 'Task 2',
+        data: [0,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.1,0,0,1,0,0,0,1,0,0,0,0,0,0.5,0,0,0,1,],
+         color: '#2F4F4F',
+    }, {
+        name: 'Task 1',
+        data: [0,0,0,2,0,0,0,0,3,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0.1,0,0,1,0,0,0,1,0,0,0,0,0,0.5,0,0,0,1,],
+        color: '#ff5232',
+    },{
+        name: 'Activation',
+        data: [0.2,0,0,0.1,0,0,1,0,0.3,0,0,0.5,0,0,0,2,0,0,0,0,0,2,0,0.1,0,0,1,0,0,0,1,0,0,0,0,0,0.5,0,0,0,1,],
+         color: '#2F4F4F',
+    },{
+        name: 'Link sending',
+        data: [0.2,0,0,0.1,0,0,1,0,0.3,0,0,0.5,0,0,0,2,0,0,0,0,0,2,0,0.1,0,0,1,0,0,0,1,0,0,0,0,0,0.5,0,0,0,1,],
+        color: '#ff5232',
+    },]
+});
+</script>
